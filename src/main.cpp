@@ -55,7 +55,24 @@ namespace App{
     [[noreturn]] inline void emergency_leave(){
         exit(0);
     }
+    namespace mini_windows{
+        void StatPanel(void){
+            static bool B_analytics = false;
+            static bool B_Toggle_stats = false;
+            static int dsize = 0;
 
+            ImGui::Begin("Panel #1");
+            ImGui::Text("this is the main panel");
+            ImGui::Checkbox("Start Analytics", &B_analytics);
+            ImGui::Checkbox("Toggle Stats", &B_Toggle_stats);
+
+            if (ImGui::Button("Press here to increase Dsize lul"))
+                dsize++;
+            ImGui::SameLine();
+            ImGui::Text("dick size = %d", dsize);
+            ImGui::End();
+        }
+    }
     void WindowLoop(Main_Window* window_main){
         while (!glfwWindowShouldClose(window_main->window)) {
             glfwPollEvents();
@@ -64,8 +81,8 @@ namespace App{
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            ImGui::ShowDemoWindow(&window_main->show_window_demo);
-
+            // ImGui::ShowDemoWindow(&window_main->show_window_demo);
+            mini_windows::StatPanel();
             ImGui::Render();
             int display_w, display_h;
             glfwGetFramebufferSize(window_main->window, &display_w, &display_h);
@@ -79,7 +96,8 @@ namespace App{
         throw(aborted_window());
     }
 
-    void Window_running(Main_Window* window_main){
+    Main_Window* Window_running(){
+        Main_Window* window_main{};
         try{
             window_main = init_backend();
         }
@@ -94,6 +112,7 @@ namespace App{
             std::cerr << e.what() << std::endl;
             emergency_leave();
         }
+        return window_main;
     }
 
     void cleanup(Main_Window* window_main){
@@ -109,9 +128,6 @@ int main() {
     if (!glfwInit())
         return 1;
 
-    App::Main_Window* window_main{};
-
-    App::Window_running(window_main);
+    App::Main_Window* window_main = App::Window_running();
     App::cleanup(window_main);
-    return 0;
 }
