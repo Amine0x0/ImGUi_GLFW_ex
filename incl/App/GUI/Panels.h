@@ -3,7 +3,15 @@
 
 namespace APP {
     namespace GUI {
+        enum class RAMPlotType {
+            LINE_CHART,
+            PIE_CHART,
+            POLAR_CHART,
+            BAR_CHART
+        };
+
         void StatPanel(void);
+        void RAMPlotPanel(void);
     }
 }
 

@@ -10,6 +10,7 @@
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
+#include "implot.h"
 
 namespace APP {
     namespace Window {
@@ -37,6 +38,7 @@ namespace APP {
 
             ImGui_ImplGlfw_InitForOpenGL(window, true);
             ImGui_ImplOpenGL3_Init("#version 130");
+            ImPlot::CreateContext();
 
             ImVec4 clear_color = ImVec4(0.2f, 0.2f, 0.2f, 0.2f);
             main->clear_color = clear_color;
@@ -55,6 +57,8 @@ namespace APP {
                 ImGui::NewFrame();
 
                 APP::GUI::StatPanel();
+                APP::GUI::RAMPlotPanel();
+
                 ImGui::Render();
                 int display_w, display_h;
                 glfwGetFramebufferSize(window_main->window, &display_w, &display_h);
@@ -88,6 +92,7 @@ namespace APP {
         }
 
         void cleanup(Main_Window* window_main){
+            ImPlot::DestroyContext();
             ImGui_ImplOpenGL3_Shutdown();
             ImGui_ImplGlfw_Shutdown();
             ImGui::DestroyContext();
