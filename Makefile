@@ -6,6 +6,7 @@ IMGUI_FOLDER = ./imgui
 BACKEND_FOLDER = ./imgui/backends
 
 SRCS = $(wildcard $(SRC_FOLDER)/*.cpp) \
+       $(wildcard $(SRC_FOLDER)/App/**/*.cpp) \
        $(wildcard $(IMGUI_FOLDER)/*.cpp) \
        $(BACKEND_FOLDER)/imgui_impl_glfw.cpp \
        $(BACKEND_FOLDER)/imgui_impl_opengl3.cpp
